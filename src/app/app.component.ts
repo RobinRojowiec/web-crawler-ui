@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'sentiment-classification-ui';
+  loading = false;
+  text = "I watched this bad movie last sunday.";
+
+  public analyze(){
+    this.loading = true;
+  }
 }

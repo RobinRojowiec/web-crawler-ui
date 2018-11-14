@@ -1,21 +1,67 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container">
+  
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">{{title}}</a>
+    </nav>
+  </header>
 
-<router-outlet></router-outlet>
+  <!-- Begin page content -->
+  <main role="main" class="container">
+    <div class="row">
+      <div class="col-lg-12">
+          <h1 class="mt-5">Classify sentiment with long linear models</h1>
+          <br>
+      </div>
+      <div class="offset-lg-2 col-lg-12">
+        <p class="text-muted">Supported Languages: 
+          <span class="badge badge-secondary">English</span></p>
+      </div>
+      <div class="offset-lg-2 col-lg-8">
+        <p>Sentiment classification is the task of assigning a sentiment label to a piece of text. The sentiment classifiys the general mood of the user
+          writing the text and is separated through 3 classes:
+        </p>
+        <ul>
+          <li>Positive</li>
+          <li>Negative</li>
+          <li>Neutral</li>
+        </ul>
+        <p>It has been an ongoing research task for years and different rules, dictionaries and machine learning algorithms have been proposed to solve
+          the problem of sentiment classification. In the demo UI below you can try out a log linear model with manual feature engineering. Altough this is not
+          state of the art anymore, it provides decent results and is easy to train, even on slow machines.
+        </p>
+        <p>The main process behind the scenes extracts the tokens using a simple tokenizer, then stems them and puts them in lowercase. Additionally, bigrams of the 
+          tokens are created to help the model identify relationsships between words. Stopwords are removed after tokenization as well. The model trains based on the labels (class labels)
+          related to a specific text and learns features for both classes, positive and negative. With the help of these features, a probability can be calculated, which sums up
+          all feature probabilities, to which degree the text is more negative or positive.
+        </p>
+        <p>The code to this demo can be found on my <a href="https://github.com/RobinRojowiec/log-linear-sentiment-classifier">Github</a>.
+        Have fun!</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12" ><br>
+        <div class="loader" *ngIf="loading"></div>
+        <p class="text-muted center">analyzing...</p>
+      </div>
+      <div class="offset-lg-2 col-lg-8" *ngIf="!loading">
+        <form>
+          <div class="form-group">
+              <label for="exampleFormControlTextarea1">Enter the text which schould be analyzed:</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="text" name="text"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success mb-2" (click)="analyze()">Analyze</button>
+          </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">Robin Rojowiec 2018</span>
+    </div>
+  </footer>
+
+</div>
