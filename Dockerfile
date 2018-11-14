@@ -1,18 +1,20 @@
-FROM teracy/angular-cli
+FROM node:8
 
-ENV HOME=/home/nodejs
-ENV APP_NAME=myapp
+# Create app directory
+WORKDIR /usr/src/app
 
-# before switching to user we need to set permission properly
-COPY ./$APP_NAME/package.json $HOME/$APP_NAME/
-RUN groupadd -r nodejs && \
-    useradd -r -g nodejs -d /home/nodejs -s /sbin/nologin nodejs && \
-    chown -R nodejs:nodejs $HOME
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
 
-USER nodejs
-WORKDIR $HOME/$APP_NAME
+RUN npm install -g @angular/cli
 
-RUN npm install --unsafe-perm=true && \
-    npm cache clean
+RUN npm install
+# If you are building your code for production
+# RUN npm install --only=production
+
+# Bundle app source
+COPY . .
 
 CMD ["ng", "serve", "--host", "0.0.0.0" , "--port", "3444"]
