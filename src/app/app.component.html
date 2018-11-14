@@ -20,8 +20,8 @@
           <span class="badge badge-secondary">English</span></p>
       </div>
       <div class="offset-lg-2 col-lg-8">
-        <p>Sentiment classification is the task of assigning a sentiment label to a piece of text. The sentiment classifiys the general mood of the user
-          writing the text and is separated through 3 classes:
+        <p>Sentiment classification is the task of assigning a sentiment label to a piece of text. The sentiment classifiys the general attitude or emotions of the user
+          writing the text about a specific topic and can be expressed with 3 general types (classes):
         </p>
         <ul>
           <li>Positive</li>
@@ -30,23 +30,42 @@
         </ul>
         <p>It has been an ongoing research task for years and different rules, dictionaries and machine learning algorithms have been proposed to solve
           the problem of sentiment classification. In the demo UI below you can try out a log linear model with manual feature engineering. Altough this is not
-          state of the art anymore, it provides decent results and is easy to train, even on slow machines.
+          state of the art anymore, it provides decent results and is easy to train, even on slow machines. Also, the model itself is quite simple, which makes
+          it much easier to understand whats going on while training and annotation.
         </p>
-        <p>The main process behind the scenes extracts the tokens using a simple tokenizer, then stems them and puts them in lowercase. Additionally, bigrams of the 
-          tokens are created to help the model identify relationsships between words. Stopwords are removed after tokenization as well. The model trains based on the labels (class labels)
-          related to a specific text and learns features for both classes, positive and negative. With the help of these features, a probability can be calculated, which sums up
-          all feature probabilities, to which degree the text is more negative or positive.
+        <p>The text processing behind the scenes extracts the tokens using a simple tokenizer, removes all stopwords, then stems and caches the tokens in lowercase. Additionally, bigrams are generated 
+          to cover local relationsships between words in the document. The model trains based on the labels (class labels) related to the movie review and learns features for both classes, positive and negative. 
+          Through summing up all features from the text for each class, the model can calculate probabilities which describe the degree of positive or negative sentiment.
         </p>
-        <p>The code to this demo can be found on my <a href="https://github.com/RobinRojowiec/log-linear-sentiment-classifier">Github</a>.
+        <p>The model has been trained on an small portion of the IMDB movide review data set (see <a href="http://ai.stanford.edu/~amaas/data/sentiment/">Large Movie Review Dataset</a>).
+          Using a 85/10/5 split of 2000 extracted documents, the model in its current state achieves about 88% Accuray.
+        </p>
+        <p>All code can be found on this <a href="https://github.com/RobinRojowiec/log-linear-sentiment-classifier">Github repository</a>.
         Have fun!</p>
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-12" ><br>
-        <div class="loader" *ngIf="loading"></div>
+        <div class="offset-lg-2 col-lg-8">
+            <hr>
+            <br>
+        </div>
+
+        <div class="offset-lg-2 col-lg-8" *ngIf="error_text">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Holy guacamole!</strong> {{error_text}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="error_text=null">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+        </div>
+      
+      <div class="col-lg-12" *ngIf="loading" >
+        <br>
+        <div class="loader" ></div>
         <p class="text-muted center">analyzing...</p>
       </div>
-      <div class="offset-lg-2 col-lg-8" *ngIf="!loading">
+
+      <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response==null">
         <form>
           <div class="form-group">
               <label for="exampleFormControlTextarea1">Enter the text which schould be analyzed:</label>
@@ -55,6 +74,22 @@
             <button type="submit" class="btn btn-success mb-2" (click)="analyze()">Analyze</button>
           </form>
       </div>
+
+      <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response">
+          <h3 class="predicted">The model predicted your text to be  
+              <span class="badge" [ngClass]="{'badge-success':last_response.predicted_class=='positive','badge-danger':last_response.predicted_class=='negative'}">
+                {{last_response.predicted_class}}</span></h3>
+                <button class="btn mb-2 again" (click)="again()">Again! again!</button>
+                <br>
+                <i class="text-muted">{{text}}</i>
+                <div class="chart">
+                    <canvas baseChart
+                            [data]="chart_data"
+                            [labels]="chart_labels"
+                            [chartType]="chart_type"
+                            [colors]="chart_colors"></canvas>
+                </div>
+        </div>
     </div>
   </main>
 
