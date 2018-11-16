@@ -12,6 +12,7 @@ export class AppComponent {
   loading = false;
   text = "I watched this bad movie last sunday.";
   last_response: SentimentResponse;
+  tokens = []
   error_text: string;
 
   chart_data = [];
@@ -30,6 +31,7 @@ export class AppComponent {
     this.error_text = null;
     this.chart_data = [];
     this.chart_labels = [];
+    this.tokens = []
   }
 
   public again(){
@@ -51,6 +53,14 @@ export class AppComponent {
         var pred = this.last_response.detailed_probabilities[key];
         this.chart_data.push( Math.round(pred*1000.0)/10);
         this.chart_labels.push(key);
+      }
+
+      for(var key in this.last_response.word_weights){
+        var token = this.last_response.word_weights[key]
+        var score = token[1]
+        var text = token[0]
+
+        this.tokens.push([text, score, Math.min(Math.abs(score)+0.5, 1.0)])
       }
       
     }, (error: any) => {

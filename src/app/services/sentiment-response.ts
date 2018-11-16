@@ -4,4 +4,5 @@ export class SentimentResponse {
         negative: String,
         positive: String
     }
+    word_weights:[]
 }

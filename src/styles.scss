@@ -17,6 +17,15 @@ p.center{
     text-align: center;
 }
 
+p.rigth-floated{
+  float: right;
+  text-align: right;
+}
+
+.badge.small{
+  font-size: .5em;
+}
+
 /* Sticky footer */
 
 body {

@@ -12,10 +12,10 @@
   <main role="main" class="container">
     <div class="row">
       <div class="col-lg-12">
-          <h1 class="mt-5">Classify sentiment with long linear models</h1>
+          <h1 class="mt-5">Classify sentiment with long linear models<span class="badge badge-secondary small">v1.0</span></h1>
           <br>
       </div>
-      <div class="offset-lg-2 col-lg-12">
+      <div class="offset-lg-2 col-lg-10">
         <p class="text-muted">Supported Languages: 
           <span class="badge badge-secondary">English</span></p>
       </div>
@@ -33,12 +33,12 @@
           state of the art anymore, it provides decent results and is easy to train, even on slow machines. Also, the model itself is quite simple, which makes
           it much easier to understand whats going on while training and annotation.
         </p>
-        <p>The text processing behind the scenes extracts the tokens using a simple tokenizer, removes all stopwords, then stems and caches the tokens in lowercase. Additionally, bigrams are generated 
-          to cover local relationsships between words in the document. The model trains based on the labels (class labels) related to the movie review and learns features for both classes, positive and negative. 
+        <p>The text processing behind the scenes extracts the tokens using a simple tokenizer, removes all stopwords, then stems and caches the tokens in lowercase.
+          The model trains based on the labels (class labels) related to the movie review and learns features for both classes, positive and negative. 
           Through summing up all features from the text for each class, the model can calculate probabilities which describe the degree of positive or negative sentiment.
         </p>
-        <p>The model has been trained on an small portion of the IMDB movide review data set (see <a href="http://ai.stanford.edu/~amaas/data/sentiment/">Large Movie Review Dataset</a>).
-          Using a 85/10/5 split of 2000 extracted documents, the model in its current state achieves about 88% Accuray.
+        <p>The model has been trained on the IMDB movide review data set (see <a href="http://ai.stanford.edu/~amaas/data/sentiment/">Large Movie Review Dataset</a>).
+          Using 25000 documents to traing and 1000 for the development and validations set, the model achieves about 85% Accuray.
         </p>
         <p>All code can be found on this <a href="https://github.com/RobinRojowiec/log-linear-sentiment-classifier">Github repository</a>.
         Have fun!</p>
@@ -76,19 +76,32 @@
       </div>
 
       <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response">
-          <h3 class="predicted">The model predicted your text to be  
-              <span class="badge" [ngClass]="{'badge-success':last_response.predicted_class=='positive','badge-danger':last_response.predicted_class=='negative'}">
-                {{last_response.predicted_class}}</span></h3>
-                <button class="btn mb-2 again" (click)="again()">Again! again!</button>
-                <br>
-                <i class="text-muted">{{text}}</i>
-                <div class="chart">
-                    <canvas baseChart
-                            [data]="chart_data"
-                            [labels]="chart_labels"
-                            [chartType]="chart_type"
-                            [colors]="chart_colors"></canvas>
-                </div>
+        <div class="col-lg-12">
+            <h3 class="predicted">The model predicted your text to be  
+                <span class="badge" [ngClass]="{'badge-success':last_response.predicted_class=='positive','badge-danger':last_response.predicted_class=='negative'}">
+                  {{last_response.predicted_class}}</span></h3>
+            <button class="btn mb-2 again" (click)="again()">Again! again!</button> 
+        </div>
+        <div class="col-lg-12">
+          <br>
+        </div>
+        <div class="col-lg-12">
+            <div class="tokens">
+                <span *ngFor="let token of tokens" class="token" [ngClass]='{"neg":token[1]<0,"pos":token[1]>0,"neutral":token[1]==0.0}' [ngStyle]='{"opacity":token[2]}'>
+                  <i>{{token[0]}}</i>
+                </span>
+              </div>
+        </div>
+        <div class="col-lg-12">
+            <br>
+          </div>
+        <div class="col-lg-12 chart">
+                <canvas baseChart
+                        [data]="chart_data"
+                        [labels]="chart_labels"
+                        [chartType]="chart_type"
+                        [colors]="chart_colors"></canvas>
+        </div>        
         </div>
     </div>
   </main>
