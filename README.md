@@ -1,8 +1,5 @@
-# sentiment-classification-ui
-UI to demonstrate Sentiment Classification
-
-# SentimentClassificationUi
-
+# Web Crawler UI
+UI to demonstrate a Simple Web Crawler
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
 
 ## Development server
