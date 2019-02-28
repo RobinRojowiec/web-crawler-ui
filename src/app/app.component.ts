@@ -8,12 +8,13 @@ import { SentimentResponse } from './services/sentiment-response';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Sentiment Classification';
+  title = 'Web Crawler';
   loading = false;
-  text = "I watched this bad movie last sunday.";
+  text = "https://en.wikipedia.org/wiki/Web_crawler";
   last_response: SentimentResponse;
   tokens = []
   error_text: string;
+  button_crawl = "Crawl!"
 
   chart_data = [];
   chart_labels = [];
@@ -38,7 +39,7 @@ export class AppComponent {
     this.clear()
   }
 
-  public analyze(){
+  public crawl(){
     if (this.text.trim() == ""){
       return;
     }

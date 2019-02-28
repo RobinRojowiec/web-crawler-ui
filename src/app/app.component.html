@@ -12,7 +12,7 @@
   <main role="main" class="container">
     <div class="row">
       <div class="col-lg-12">
-          <h1 class="mt-5">Classify sentiment with log linear models<span class="badge badge-secondary small">v1.0</span></h1>
+          <h1 class="mt-5">Wikipedia Webcrawler<span class="badge badge-secondary small">v1.0</span></h1>
           <br>
       </div>
       <div class="offset-lg-2 col-lg-10">
@@ -20,27 +20,12 @@
           <span class="badge badge-secondary">English</span></p>
       </div>
       <div class="offset-lg-2 col-lg-8">
-        <p>Sentiment classification is the task of assigning a sentiment label to a piece of text. The sentiment classifiys the general attitude or emotions of the user
-          writing the text about a specific topic and can be expressed with 3 general types (classes):
+        <p></p>
+        <p>A web crawler is a simple bot that can download and parse websites. It finds links in the HTML und adds them to a link list which then
+          again is crawled. By defining the crawling depth in the settings, the crawler will be limited in the number of elements per follow links.
+          In this demo, the crawler is specifically designed to crawl wikipedia pages and category pages from the english wikipedia.
         </p>
-        <ul>
-          <li>Positive</li>
-          <li>Negative</li>
-          <li>Neutral</li>
-        </ul>
-        <p>It has been an ongoing research task for years and different rules, dictionaries and machine learning algorithms have been proposed to solve
-          the problem of sentiment classification. In the demo UI below you can try out a log linear model with manual feature engineering. Altough this is not
-          state of the art anymore, it provides decent results and is easy to train, even on slow machines. Also, the model itself is quite simple, which makes
-          it much easier to understand.
-        </p>
-        <p>The text processing behind the scenes extracts the tokens using a simple tokenizer, removes all stopwords, then stems and caches the tokens in lowercase.
-          The model trains based on the labels (class labels) related to the movie review and learns features for both classes, positive and negative. 
-          Through summing up all features from the text for each class, the model can calculate probabilities which describe the degree of positive or negative sentiment.
-        </p>
-        <p>The model has been trained on the IMDB movide review data set (see <a href="http://ai.stanford.edu/~amaas/data/sentiment/">Large Movie Review Dataset</a>).
-          Using 25000 documents for training and 1000 for development and validations set, the model achieves 85% Accuracy.
-        </p>
-        <p>All code can be found on this <a href="https://github.com/RobinRojowiec/log-linear-sentiment-classifier">Github repository</a>.
+        <p>All code can be found on this <a href="https://github.com/RobinRojowiec/wikipedia-web-crawler">Github repository</a>.
         Have fun!</p>
       </div>
     </div>
@@ -68,10 +53,10 @@
       <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response==null">
         <form>
           <div class="form-group">
-              <label for="exampleFormControlTextarea1">Enter the text which schould be analyzed:</label>
+              <label for="exampleFormControlTextarea1">Links to wikipedia pages or categories, one per line:</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="text" name="text"></textarea>
             </div>
-            <button type="submit" class="btn btn-success mb-2" (click)="analyze()">Analyze</button>
+            <button type="submit" class="btn btn-success mb-2" (click)="crawl()">{{button_crawl}}</button>
           </form>
       </div>
 
