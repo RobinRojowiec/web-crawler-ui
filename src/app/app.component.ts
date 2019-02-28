@@ -15,6 +15,7 @@ export class AppComponent {
   tokens = []
   error_text: string;
   button_crawl = "Crawl!"
+  placeholder = "Wikipedia page or category url, e.g. https://en.wikipedia.org/wiki/Web_crawler"
 
   chart_data = [];
   chart_labels = [];

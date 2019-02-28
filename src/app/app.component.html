@@ -25,6 +25,9 @@
           again is crawled. By defining the crawling depth in the settings, the crawler will be limited in the number of elements per follow links.
           In this demo, the crawler is specifically designed to crawl wikipedia pages and category pages from the english wikipedia.
         </p>
+        <p>After successful crawl, you can download the result of the crawler in a zip file. Each wikipedia page is stored in a JSON with the following scheme:
+          <br>TODO add scheme
+        </p>
         <p>All code can be found on this <a href="https://github.com/RobinRojowiec/wikipedia-web-crawler">Github repository</a>.
         Have fun!</p>
       </div>
@@ -51,13 +54,12 @@
       </div>
 
       <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response==null">
-        <form>
-          <div class="form-group">
-              <label for="exampleFormControlTextarea1">Links to wikipedia pages or categories, one per line:</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="text" name="text"></textarea>
-            </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" [placeholder]="placeholder" aria-label="Recipient's username" aria-describedby="basic-addon2">
+          <div class="input-group-append">
             <button type="submit" class="btn btn-success mb-2" (click)="crawl()">{{button_crawl}}</button>
-          </form>
+          </div>
+        </div>
       </div>
 
       <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response">
