@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {SentimentService} from './services/sentiment.service';
-import { SentimentResponse } from './services/sentiment-response';
+import { CrawlService} from './services/crawler.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,15 @@ import { SentimentResponse } from './services/sentiment-response';
 export class AppComponent {
   title = 'Web Crawler';
   loading = false;
-  text = "https://en.wikipedia.org/wiki/Web_crawler";
-  last_response: SentimentResponse;
+
+  
+  default_link = "https://en.wikipedia.org/wiki/Web_crawler";
+  text = this.default_link+"";
+
+  href = null
+  download = null
+
+  last_response = null;
   tokens = []
   error_text: string;
   button_crawl = "Crawl!"
@@ -26,7 +33,7 @@ export class AppComponent {
   }];
   slight_difference: boolean = false;
 
-  constructor(private sentimentService: SentimentService ){}
+  constructor(private crawlService: CrawlService, private sanitizer:DomSanitizer){}
 
   public clear(){
     this.last_response = null;
@@ -40,6 +47,10 @@ export class AppComponent {
     this.clear()
   }
 
+  public sanitizedUrl(){
+    return this.sanitizer.bypassSecurityTrustUrl(this.href);
+  }
+
   public crawl(){
     if (this.text.trim() == ""){
       return;
@@ -48,22 +59,11 @@ export class AppComponent {
     this.clear();
     this.loading = true;
 
-    this.sentimentService.analyze(this.text).subscribe( (data: SentimentResponse) => { 
-      this.last_response = data;
-      
-      for(var key in this.last_response.detailed_probabilities){
-        var pred = this.last_response.detailed_probabilities[key];
-        this.chart_data.push( Math.round(pred*1000.0)/10);
-        this.chart_labels.push(key);
-      }
-
-      for(var key in this.last_response.word_weights){
-        var token = this.last_response.word_weights[key]
-        var score = token[1]
-        var text = token[0]
-
-        this.tokens.push([text, score, Math.min(Math.abs(score)+0.5, 1.0)])
-      }
+    this.crawlService.analyze(this.text).subscribe( (data: {}) => { 
+        this.last_response = data
+        var sJson = JSON.stringify(data);
+        this.href = "data:text/json;charset=UTF-8," + encodeURIComponent(sJson);
+        this.download =  this.text.split("/").pop().replace(" ","_").toLowerCase() + "_" + new Date().toISOString() + ".json";
       
     }, (error: any) => {
       this.error_text = error.message

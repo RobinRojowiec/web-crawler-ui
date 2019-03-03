@@ -61,7 +61,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sentiment-classification-ui:build"
+            "browserTarget": "sentiment-classification-ui:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

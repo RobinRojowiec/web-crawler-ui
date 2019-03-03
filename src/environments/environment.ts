@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: "https://robins-nlp-garage.de/sentiment/analyze"
+  url: "http://localhost:4200/crawl"
 };
 
 /*

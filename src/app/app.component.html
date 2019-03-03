@@ -22,13 +22,12 @@
       <div class="offset-lg-2 col-lg-8">
         <p></p>
         <p>A web crawler is a simple bot that can download and parse websites. It finds links in the HTML und adds them to a link list which then
-          again is crawled. By defining the crawling depth in the settings, the crawler will be limited in the number of elements per follow links.
-          In this demo, the crawler is specifically designed to crawl wikipedia pages and category pages from the english wikipedia.
+          again is crawled. By defining the crawling depth, the crawler will be limited in the number of elements per follow links.
+          In this demo, the crawler is specifically designed to crawl wikipedia pages and category pages from the english wikipedia. It extracts
+          paragraphs, graphics (link and description), links and the full html of the page.
         </p>
-        <p>After successful crawl, you can download the result of the crawler in a zip file. Each wikipedia page is stored in a JSON with the following scheme:
-          <br>TODO add scheme
-        </p>
-        <p>All code can be found on this <a href="https://github.com/RobinRojowiec/wikipedia-web-crawler">Github repository</a>.
+        <p>After successful crawl, you can download the result of the crawler as a JSON file. It consists of all crawled pages as elements in an array.
+        All code can be found on this <a href="https://github.com/RobinRojowiec/wikipedia-web-crawler">Github repository</a>.
         Have fun!</p>
       </div>
     </div>
@@ -50,12 +49,12 @@
       <div class="col-lg-12" *ngIf="loading" >
         <br>
         <div class="loader" ></div>
-        <p class="text-muted center">analyzing...</p>
+        <p class="text-muted center">crawling...</p>
       </div>
 
       <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response==null">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" [placeholder]="placeholder" aria-label="Recipient's username" aria-describedby="basic-addon2">
+          <input type="text" class="form-control" [(value)]="text" [placeholder]="placeholder" aria-label="Recipient's username" aria-describedby="basic-addon2">
           <div class="input-group-append">
             <button type="submit" class="btn btn-success mb-2" (click)="crawl()">{{button_crawl}}</button>
           </div>
@@ -63,14 +62,10 @@
       </div>
 
       <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response">
-        <div class="col-lg-12">
-            <h3 class="predicted">The model predicted your text to be  
-                <span class="badge" [ngClass]="{'badge-success':last_response.predicted_class=='positive','badge-danger':last_response.predicted_class=='negative'}">
-                  {{last_response.predicted_class}}</span></h3>
+        <div class="result-container">
+            <p>Success! Click here to download the JSON output: </p>
+            <a [href]="sanitizedUrl()" class="btn btn-success"[download]="download" >Download {{download}}</a>
             <button class="btn mb-2 again" (click)="again()">Again! again!</button> 
-        </div>
-        <div class="col-lg-12">
-          <br>
         </div>
         <div class="col-lg-12">
             <div class="tokens">
