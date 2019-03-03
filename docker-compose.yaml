@@ -1,6 +1,6 @@
-version: '3'
+version: '3.3'
 services:
-    senti_frontend:
+    wiki_crawler_frontend:
       build: .
       ports:
-        - 3444
+        - 3330
