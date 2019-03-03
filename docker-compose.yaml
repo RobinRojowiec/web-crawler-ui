@@ -3,4 +3,4 @@ services:
     wiki_crawler_frontend:
       build: .
       ports:
-        - 3331
+        - "127.0.0.1:3331:3331"
