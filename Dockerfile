@@ -17,4 +17,4 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-CMD ["ng", "serve", "--host", "0.0.0.0" , "--port", "3444"]
+CMD ["ng", "serve", "--host", "0.0.0.0" , "--port", "3331"]
