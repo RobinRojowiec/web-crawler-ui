@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CrawlService} from './services/crawler.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import { CrawlResponse } from './services/crawl-response';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +13,10 @@ export class AppComponent {
   title = 'Web Crawler';
   loading = false;
 
-  
   default_link = "https://en.wikipedia.org/wiki/Web_crawler";
   text = this.default_link+"";
 
   href = null
-  download = null
   crawlLinkedPages = false;
   last_response = null;
   tokens = []
@@ -47,9 +47,9 @@ export class AppComponent {
     this.clear()
   }
 
-  public sanitizedUrl(){
+  /*public sanitizedUrl(){
     return this.sanitizer.bypassSecurityTrustUrl(this.href);
-  }
+  }*/
 
   public crawl(){
     if (this.text.trim() == ""){
@@ -59,11 +59,9 @@ export class AppComponent {
     this.clear();
     this.loading = true;
 
-    this.crawlService.analyze(this.text, this.crawlLinkedPages).subscribe( (data: {}) => { 
-        this.last_response = data
-        var sJson = JSON.stringify(data);
-        this.href = "data:text/json;charset=UTF-8," + encodeURIComponent(sJson);
-        this.download =  this.text.split("/").pop().replace(" ","_").toLowerCase() + "_" + new Date().toISOString() + ".json";
+    this.crawlService.analyze(this.text, this.crawlLinkedPages).subscribe( (data: CrawlResponse) => { 
+        this.last_response = data.page;
+        this.href = environment.url + data.download_url;
       
     }, (error: any) => {
       this.error_text = error.message

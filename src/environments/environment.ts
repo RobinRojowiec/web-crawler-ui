@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: "https://robinlphood.de/wikipedia_crawler/crawl"
+  url: "http://localhost:3330"
 };
 
 /*
