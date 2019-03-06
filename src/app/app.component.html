@@ -53,12 +53,20 @@
       </div>
 
       <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response==null">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" [(value)]="text" [placeholder]="placeholder" aria-label="Recipient's username" aria-describedby="basic-addon2">
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-success mb-2" (click)="crawl()">{{button_crawl}}</button>
+        <form>
+            <div class="input-group">
+                <input type="text" class="form-control" [(value)]="text" [placeholder]="placeholder" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-success mb-2" (click)="crawl()">{{button_crawl}}</button>
+                </div>
           </div>
-        </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="crawlLinkedPages" name="crawlLinkedPages">
+            <label class="form-check-label" for="exampleCheck1">Crawl linked pages</label>
+          </div>
+        </form>
+
+
       </div>
 
       <div class="offset-lg-2 col-lg-8" *ngIf="!loading && last_response">

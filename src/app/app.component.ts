@@ -17,7 +17,7 @@ export class AppComponent {
 
   href = null
   download = null
-
+  crawlLinkedPages = false;
   last_response = null;
   tokens = []
   error_text: string;
@@ -59,7 +59,7 @@ export class AppComponent {
     this.clear();
     this.loading = true;
 
-    this.crawlService.analyze(this.text).subscribe( (data: {}) => { 
+    this.crawlService.analyze(this.text, this.crawlLinkedPages).subscribe( (data: {}) => { 
         this.last_response = data
         var sJson = JSON.stringify(data);
         this.href = "data:text/json;charset=UTF-8," + encodeURIComponent(sJson);

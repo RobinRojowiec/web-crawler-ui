@@ -10,7 +10,8 @@ export class CrawlService {
 
   constructor(private http: HttpClient) { }
 
-  public analyze(text: string){
-    return this.http.get<Object>(this.url+"?url="+encodeURIComponent(text));
+  public analyze(text: string, crawlLinkedPages: boolean){
+    var depth = crawlLinkedPages == true ? 1 : 0
+    return this.http.get<Object>(this.url+"?url="+encodeURIComponent(text)+"&depth="+depth);
   }
 }
